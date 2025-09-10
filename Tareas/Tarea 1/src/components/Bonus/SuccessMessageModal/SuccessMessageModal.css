@@ -1,0 +1,35 @@
+.success-modal {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 25rem;
+    text-align: center;
+    font-family: sans-serif;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.success-modal p {
+    margin-bottom: 1rem;
+    color: black;
+    font-size: 1.2rem;
+    font-family: sans-serif;
+}
+
+.success-button {
+    margin-top: 1.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #4CAF50;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+
+
+.success-button:hover {
+    background-color: #45a049;
+}

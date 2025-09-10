@@ -1,0 +1,68 @@
+.container_pokemons {
+  display: grid;
+  grid-template-columns: 58rem auto; 
+  gap: 2rem;
+  margin-top: 4rem;
+  padding: 0 2rem;
+}
+
+
+.usuario {
+    display: grid;
+    align-items: center;
+    background-color: rgb(207, 68, 68);
+    width: 20rem;
+    height: 20rem;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    font-family: sans-serif;
+    margin-left : 10rem;
+}
+
+.usuario img {
+    width: 8rem;
+    height: 12rem;
+    margin: auto;
+    margin-top: -1rem;
+}
+
+.usuario h2 {
+    color: aliceblue;
+    margin: 0;
+    text-align: center;
+}
+
+.usuario h3 {
+    color: aliceblue;
+    margin: 0;
+    text-align: center;
+}
+
+.usuario button {
+    height: 3rem;
+    width: 10rem;
+    padding: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: auto;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.usuario button:hover {
+    background-color: rgb(110, 110, 114);
+    opacity: 0.97;
+}
+
+.container_pokemons h1 {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.titulo-columna-derecha {
+  margin-left: 60rem;
+}
