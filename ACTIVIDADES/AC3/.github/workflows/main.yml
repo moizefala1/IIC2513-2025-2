@@ -1,0 +1,32 @@
+name: main
+on: [push]
+
+jobs:
+    linter:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Instalar dependencias
+              run: yarn install
+            - name: Ejecutar ESLint
+              run: yarn run eslint .  --max-warnings=0 
+    fetch-api:
+        needs: linter
+        runs-on: ubuntu-latest
+        permissions: 
+          contents: write
+        steps:
+            - uses: actions/checkout@v4
+            - name: Instalar dependencias
+              run: yarn install
+            - name: Actualizar README
+              run: yarn update-readme
+            - name: commit-push
+              run: |
+                git config --global user.name 'github-actions'
+                git config --global user.email 'holandaquetalca@uc.cl'
+                git add .
+                git commit -m "Actualizar README"
+                git push
+  
+                
