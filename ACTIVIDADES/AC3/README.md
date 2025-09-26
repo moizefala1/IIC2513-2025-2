@@ -90,5 +90,5 @@ Tu solución debe cumplir con los siguientes criterios:
 
 ##  🛸 Personaje del día
 Aquí debes colocar el personaje del día con la información solicitada.
-FOTO: https://rickandmortyapi.com/api/character/avatar/332.jpeg
+FOTO: !(https://rickandmortyapi.com/api/character/avatar/332.jpeg)
 INFO: Nombre: Stacy,ID: 332,Especie: Human,Estado: Alive,Origen: Earth (Replacement Dimension)
