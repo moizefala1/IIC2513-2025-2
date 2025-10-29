@@ -1,0 +1,79 @@
+.mainpage-container {
+    width: 100vw;
+    min-height: 100vh;
+    background-color: #64b6ac;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 2rem;
+    align-items: start;
+}
+
+
+.mainpage-container > * {
+    background-color: rgba(112, 152, 155, 0.9); /* #70989b */
+    border: 1px solid rgba(44, 44, 44, 0.2); /* 2c2c2c */
+    border-radius: 1rem;
+    padding: 1.5rem;
+}
+
+.mainpage-columna_title {
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.mainpage-columna_title p {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+}
+
+.mainpage-columna_title button {
+    background-color: transparent;
+    border: 2px solid #2c2c2c;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mainpage-columna_title button:hover {
+    background-color: rgba(44, 44, 44, 0.2);
+    border-color: rgba(44, 44, 44, 0.8);
+}
+
+.mainpage-columna_content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+
+
+/* TABLET */
+/* 2 columnas */
+@media (min-width: 768px) and (max-width: 1200px) {
+    .mainpage-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mainpage-container > div:last-child { /* + Nueva tarea , ya que es el ultimo div del container*/
+        grid-column: 1/-1; /* ocupa todas las columnas del grid */
+    }
+}
+
+/* CELULAR*/
+/* una sola columna */
+@media (max-width: 767px) {
+    .mainpage-container {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+        gap: 1rem;
+    }
+}
