@@ -1,0 +1,172 @@
+/* Página de Documentación */
+.docs-page {
+    background: #ffffff;
+    color: #213547;
+    min-height: 100vh;
+    min-width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Hero Section - Similar al landing */
+.docs-hero {
+    background: #70989B;
+    color: #0f2a35;
+    padding: 3rem 1.25rem;
+}
+
+.docs-hero__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.docs-logo {
+    width: 100%;
+    height: auto;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.docs-logo img {
+    max-width: 200px;
+    width: 200px;
+    height: auto;
+    display: block;
+}
+
+.docs-hero__inner h1 {
+    margin: 0 0 1rem;
+    font-size: 2.5rem;
+    color: #2c2c2c;
+    font-weight: bold;
+}
+
+.docs-hero__inner p {
+    margin: 0;
+    color: #0f2a35;
+    font-size: 1.1rem;
+}
+
+/* Content Section - Similar al footer del landing */
+.docs-content {
+    background: white;
+    color: #213547;
+    padding: 3rem 0;
+}
+
+.docs-content__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+}
+
+/* Secciones de documentación */
+.docs-section {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.docs-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.docs-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: #2c2c2c;
+    font-weight: bold;
+}
+
+.docs-feature {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #70989B;
+}
+
+.docs-feature:last-child {
+    margin-bottom: 0;
+}
+
+.docs-feature h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #2c2c2c;
+    font-weight: 600;
+}
+
+.docs-feature p {
+    margin: 0;
+    color: #5f6368;
+    line-height: 1.6;
+}
+
+.docs-feature p strong {
+    color: #2c2c2c;
+    font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .docs-hero__inner h1 {
+        font-size: 2rem;
+    }
+    
+    .docs-hero__inner p {
+        font-size: 1rem;
+    }
+    
+    .docs-logo img {
+        max-width: 180px;
+        width: 180px;
+    }
+    
+    .docs-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .docs-content__inner {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 520px) {
+    .docs-hero {
+        padding: 2rem 1rem;
+    }
+    
+    .docs-hero__inner h1 {
+        font-size: 1.8rem;
+    }
+    
+    .docs-logo img {
+        max-width: 150px;
+        width: 150px;
+    }
+    
+    .docs-content {
+        padding: 2rem 0;
+    }
+    
+    .docs-section {
+        margin-bottom: 2rem;
+    }
+    
+    .docs-section h2 {
+        font-size: 1.3rem;
+    }
+    
+    .docs-feature {
+        padding: 0.8rem;
+    }
+    
+    .docs-feature h3 {
+        font-size: 1.1rem;
+    }
+}
