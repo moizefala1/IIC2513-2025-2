@@ -1,0 +1,701 @@
+openapi: 3.0.0
+info:
+  title: Dawdle API
+  description: |
+    API para gestión de eventos y usuarios
+    
+    ## Autenticación
+    La API utiliza un sistema híbrido de autenticación:
+    - **JWT (JSON Web Token)**: Se devuelve en el cuerpo de la respuesta con expiración de 1 hora
+    - **Cookies httpOnly**: Se establece automáticamente en las rutas `/auth/register` y `/auth/login` con las siguientes características:
+      - `httpOnly: true` - No accesible desde JavaScript (protección contra XSS)
+      - `secure: true` - Solo en HTTPS (producción)
+      - `sameSite: 'lax'` - Protección contra CSRF
+      - `maxAge: 3600000` - 1 hora (3600 segundos)
+      - `path: '/'` - Disponible en toda la aplicación
+    
+    ## Seguridad de contraseñas
+    Las contraseñas se almacenan utilizando bcrypt con **12 rounds de salt** para máxima seguridad.
+    
+    ## CORS
+    El servidor acepta peticiones solo desde el origen configurado en `FRONT_ORIGIN` (variable de entorno).
+  version: 1.0.0
+  contact:
+    name: Soporte Dawdle
+    email: soporte@dawdle.com
+
+servers:
+  - url: http://localhost:3000
+    description: Servidor local
+  - url: https://dawdle-backend.onrender.com
+    description: Servidor de producción
+
+tags:
+  - name: Auth
+    description: Endpoints de autenticación
+  - name: Users
+    description: Gestión de usuarios
+  - name: Events
+    description: Gestión de eventos
+
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Registrar nuevo usuario
+      description: Crea una nueva cuenta de usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - email
+                - password
+                - age
+                - birthday
+              properties:
+                username:
+                  type: string
+                  example: "nuevo_usuario"
+                email:
+                  type: string
+                  format: email
+                  example: "usuario@example.com"
+                password:
+                  type: string
+                  format: password
+                  example: "MiPassword123"
+                age:
+                  type: integer
+                  example: 25
+                birthday:
+                  type: string
+                  format: date
+                  example: "1999-05-20"
+      responses:
+        '200':
+          description: Registro exitoso. Se establece cookie httpOnly con el token (maxAge 1h, sameSite lax, secure en producción)
+          headers:
+            Set-Cookie:
+              description: Cookie de autenticación (httpOnly)
+              schema:
+                type: string
+                example: "authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...; Path=/; HttpOnly; SameSite=Lax; Max-Age=3600"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Usuario creado exitosamente"
+                  user:
+                    $ref: '#/components/schemas/User'
+                  token:
+                    type: string
+                    description: JWT con expiración de 1 hora
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Iniciar sesión
+      description: Autenticar usuario con email y password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "usuario@example.com"
+                password:
+                  type: string
+                  format: password
+                  example: "MiPassword123"
+      responses:
+        '200':
+          description: Inicio de sesión exitoso. Se establece cookie httpOnly con el token (maxAge 1h, sameSite lax, secure en producción)
+          headers:
+            Set-Cookie:
+              description: Cookie de autenticación (httpOnly)
+              schema:
+                type: string
+                example: "authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...; Path=/; HttpOnly; SameSite=Lax; Max-Age=3600"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Inicio de sesión exitoso"
+                  user:
+                    $ref: '#/components/schemas/User'
+                  token:
+                    type: string
+                    description: JWT con expiración de 1 hora. También se envía en cookie httpOnly para mayor seguridad
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+
+  /auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: Cerrar sesión
+      description: Cierra la sesión del usuario eliminando la cookie de autenticación (httpOnly)
+      responses:
+        '200':
+          description: Sesión cerrada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Sesión cerrada exitosamente"
+
+  /auth/me:
+    get:
+      tags:
+        - Auth
+      summary: Obtener información del usuario actual
+      description: Retorna los datos del usuario autenticado
+      responses:
+        '200':
+          description: Información del usuario obtenida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Obtener todos los usuarios
+      description: Retorna lista de usuarios (requiere ser admin)
+      responses:
+        '200':
+          description: Lista de usuarios obtenida
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+  /users/{id}:
+    put:
+      tags:
+        - Users
+      summary: Actualizar usuario
+      description: Actualizar información de usuario (solo dueño o admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: Usuario actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Usuario actualizado exitosamente"
+                  user:
+                    $ref: '#/components/schemas/User'
+    delete:
+      tags:
+        - Users
+      summary: Eliminar usuario
+      description: Eliminar usuario (solo admin o dueño)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Usuario eliminado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Usuario eliminado exitosamente"
+
+  /events:
+    get:
+      tags:
+        - Events
+      summary: Obtener eventos del usuario
+      description: Retorna todos los eventos del usuario autenticado
+      responses:
+        '200':
+          description: Lista de eventos obtenida
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventWithRelations'
+    post:
+      tags:
+        - Events
+      summary: Crear nuevo evento
+      description: Crea un nuevo evento asociado al usuario autenticado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventCreate'
+      responses:
+        '201':
+          description: Evento creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Evento creado exitosamente"
+                  event:
+                    $ref: '#/components/schemas/Event'
+
+  /events/{id}:
+    get:
+      tags:
+        - Events
+      summary: Obtener evento específico
+      description: Retorna un evento específico (solo dueño o admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Evento obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventWithUser'
+    put:
+      tags:
+        - Events
+      summary: Actualizar evento
+      description: Actualizar evento existente (solo dueño o admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventUpdate'
+      responses:
+        '200':
+          description: Evento actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Evento actualizado exitosamente"
+                  event:
+                    $ref: '#/components/schemas/Event'
+    delete:
+      tags:
+        - Events
+      summary: Eliminar evento
+      description: Eliminar evento (solo dueño o admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Evento eliminado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Evento eliminado exitosamente"
+
+  /events/{id}/complete:
+    post:
+      tags:
+        - Events
+      summary: Marcar evento como completado
+      description: Marcar evento como completado (solo dueño)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '201':
+          description: Evento marcado como completado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Evento marcado como completado"
+                  completed:
+                    $ref: '#/components/schemas/Completed'
+        '400':
+          description: El evento ya está marcado como completado
+    delete:
+      tags:
+        - Events
+      summary: Desmarcar evento como completado
+      description: Desmarcar evento como completado (solo dueño)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Evento desmarcado como completado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Evento desmarcado como completado"
+        '404':
+          description: El evento no está marcado como completado
+
+  /events/all:
+    get:
+      tags:
+        - Events
+      summary: Obtener todos los eventos (Admin)
+      description: Retorna todos los eventos de todos los usuarios (solo admin)
+      responses:
+        '200':
+          description: Lista de eventos obtenida
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventWithUser'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: "nuevo_usuario"
+        email:
+          type: string
+          format: email
+          example: "usuario@example.com"
+        image:
+          type: string
+          format: uri
+          example: "https://ui-avatars.com/api/?name=nuevo_usuario&background=random"
+        age:
+          type: integer
+          example: 25
+        birthday:
+          type: string
+          format: date-time
+          example: "1999-05-20T00:00:00.000Z"
+
+    UserUpdate:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "nuevo_usuario_cambiado"
+        email:
+          type: string
+          format: email
+          example: "usuario@example.com"
+        age:
+          type: integer
+          example: 30
+
+    Event:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 15
+        user_id:
+          type: integer
+          example: 2
+        title:
+          type: string
+          example: "Estudiar Node.js"
+        description:
+          type: string
+          example: "Repasar Express y Sequelize"
+        date:
+          type: string
+          format: date-time
+          example: "2025-11-08T14:00:00.000Z"
+        end_date:
+          type: string
+          format: date-time
+          example: "2025-11-08T16:00:00.000Z"
+        all_day:
+          type: boolean
+          example: false
+        color:
+          type: string
+          example: "#3498DB"
+        notify:
+          type: boolean
+          example: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    EventCreate:
+      type: object
+      required:
+        - title
+        - date
+      properties:
+        title:
+          type: string
+          minLength: 3
+          maxLength: 200
+          example: "Estudiar Node.js"
+          description: Título del evento (3-200 caracteres)
+        description:
+          type: string
+          maxLength: 1000
+          example: "Repasar Express y Sequelize"
+          description: Descripción opcional del evento (máximo 1000 caracteres)
+        date:
+          type: string
+          format: date-time
+          example: "2025-11-08T14:00:00Z"
+          description: Fecha y hora de inicio del evento (ISO 8601)
+        end_date:
+          type: string
+          format: date-time
+          example: "2025-11-08T16:00:00Z"
+          description: "Fecha y hora de fin del evento (ISO 8601). IMPORTANTE: Debe ser mayor o igual a 'date' (validación personalizada implementada)"
+        all_day:
+          type: boolean
+          example: false
+          description: Indica si el evento dura todo el día
+        color:
+          type: string
+          pattern: "^#[0-9A-Fa-f]{6}$"
+          example: "#3498DB"
+          description: Color del evento en formato hexadecimal (por ejemplo, #3498DB)
+        notify:
+          type: boolean
+          example: true
+          description: Indica si se envían notificaciones para este evento
+
+    EventUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 3
+          maxLength: 200
+          example: "Estudiar Node.js - Actualizado"
+          description: Título del evento (3-200 caracteres)
+        description:
+          type: string
+          maxLength: 1000
+          example: "Repasar Express, Sequelize y JWT"
+          description: Descripción opcional del evento (máximo 1000 caracteres)
+        date:
+          type: string
+          format: date-time
+          example: "2025-11-08T15:00:00Z"
+          description: Fecha y hora de inicio del evento (ISO 8601)
+        end_date:
+          type: string
+          format: date-time
+          example: "2025-11-08T17:00:00Z"
+          description: "Fecha y hora de fin del evento (ISO 8601). IMPORTANTE: Debe ser mayor o igual a 'date' (validación personalizada implementada)"
+        all_day:
+          type: boolean
+          example: false
+          description: Indica si el evento dura todo el día
+        color:
+          type: string
+          pattern: "^#[0-9A-Fa-f]{6}$"
+          example: "#E74C3C"
+          description: Color del evento en formato hexadecimal (por ejemplo, #E74C3C)
+        notify:
+          type: boolean
+          example: false
+          description: Indica si se envían notificaciones para este evento
+
+    EventWithRelations:
+      allOf:
+        - $ref: '#/components/schemas/Event'
+        - type: object
+          properties:
+            Notifications:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  notif_time:
+                    type: string
+                    format: date-time
+                    example: "2025-11-08T09:00:00.000Z"
+            Completeds:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  completion_date:
+                    type: string
+                    format: date-time
+                    example: "2025-11-15T15:30:00.000Z"
+
+    EventWithUser:
+      allOf:
+        - $ref: '#/components/schemas/Event'
+        - type: object
+          properties:
+            User:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                username:
+                  type: string
+                  example: "admin"
+                email:
+                  type: string
+                  example: "admin@dawdle.com"
+            Notifications:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  notif_time:
+                    type: string
+                    format: date-time
+                    example: "2025-11-08T09:00:00.000Z"
+            Completeds:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  completion_date:
+                    type: string
+                    format: date-time
+                    example: "2025-11-15T15:30:00.000Z"
+
+    Completed:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5
+        event_id:
+          type: integer
+          example: 15
+        completion_date:
+          type: string
+          format: date-time
+          example: "2025-11-06T18:30:00.000Z"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []
