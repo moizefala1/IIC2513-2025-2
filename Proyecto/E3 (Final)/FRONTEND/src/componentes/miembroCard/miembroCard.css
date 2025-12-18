@@ -1,0 +1,46 @@
+/* Estilos del componente MiembroCard */
+.aboutus-card {
+	background: #fff;
+	border: 1px solid rgba(0,0,0,0.06);
+	border-radius: 16px;
+	box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+	padding: 1.25rem;
+	display: grid;
+	gap: 0.75rem;
+	align-content: start;
+}
+
+.aboutus-card_avatar {
+	display: grid;
+	place-items: center;
+}
+
+.aboutus-card_img{
+	width: 120px;
+	height: 120px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+
+.aboutus-card_content h3 {
+	margin: 0;
+	font-size: 1.1rem;
+}
+.aboutus-card_role {
+	margin: 0;
+	color: #5f6368;
+	font-weight: 600;
+}
+.aboutus-card_bio {
+	margin: 0.25rem 0 0 0;
+	color: #41464b;
+	line-height: 1.5;
+}
+
+@media (max-width: 560px) {
+	.aboutus-card__placeholder {
+		width: 100px;
+		height: 100px;
+	}
+}

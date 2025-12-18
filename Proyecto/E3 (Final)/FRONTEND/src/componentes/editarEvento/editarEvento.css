@@ -1,0 +1,160 @@
+.editar-evento-body {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.editar-evento-container {
+    background-color: #70989B;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    line-height: 1;
+}
+
+.close-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-0.25rem);
+}
+
+.editar-evento-logo {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.editar-evento-logo img {
+    width: 80px;
+    height: auto;
+}
+
+.editar-evento-form h2 {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.editar-evento-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.editar-evento-form p {
+    color: white;
+    font-weight: 600;
+    margin: 0.5rem 0 0 0;
+}
+
+.editar-evento-form input[type="text"],
+.editar-evento-form input[type="date"],
+.editar-evento-form input[type="time"] {
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #172E3D;
+}
+
+.editar-evento-form input[type="text"]::placeholder {
+    color: rgba(23, 46, 61, 0.6);
+}
+
+.date-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.all-day-row,
+.notify-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.editar-evento-form input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.editar-evento-form label {
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.editar-evento-form button[type="submit"] {
+    background-color: #C0FDFB;
+    color: #172E3D;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.editar-evento-form button[type="submit"]:hover {
+    background-color: #a0ddd9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* CELULAR */
+@media (max-width: 767px) {
+    .editar-evento-container {
+        padding: 1.5rem;
+        width: 95%;
+    }
+    .date-row {
+        grid-template-columns: 1fr;
+    }
+}

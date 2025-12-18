@@ -1,0 +1,49 @@
+name: Deploy Website & Linting
+
+on:
+  push:
+    branches:
+      - main
+     
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install
+        
+      - name: Deploy to Render
+        uses: johnbeynon/render-deploy-action@v0.0.8
+
+        with:
+          service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
+          api-key: ${{ secrets.MY_RENDER_API_KEY }}
+  
+  Linting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run ESLint
+        run: yarn lint

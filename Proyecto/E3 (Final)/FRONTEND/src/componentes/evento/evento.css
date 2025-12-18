@@ -1,0 +1,138 @@
+.evento-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.evento-card:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateX(4px);
+}
+
+
+.evento-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.evento-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+}
+
+.evento-notify-badge {
+    font-size: 1.5rem;
+}
+
+.evento-description {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    line-height: 1.4;
+}
+
+.evento-date-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.evento-date {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.evento-date-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: bold;
+}
+
+.evento-date-value {
+    color: white;
+}
+
+.evento-all-day-badge {
+    display: inline-block;
+    background-color: rgba(192, 253, 251, 0.2);
+    color: #C0FDFB;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 0.25rem;
+    width: fit-content;
+}
+
+@media (max-width: 767px) {
+    .evento-card {
+        padding: 0.75rem;
+    }
+
+    .evento-title {
+        font-size: 1rem;
+    }
+
+    .evento-description {
+        font-size: 0.85rem;
+    }
+}
+
+.evento-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+.evento-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0.2rem;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.evento-btn.eliminar {
+  background: #FF3232;
+}
+
+.evento-btn.editar {
+  background: #64C8FF;
+}
+
+.evento-btn.completar {
+  background: #32FF7E;
+}
+
+.evento-btn.descompletar {
+  background: #9B5CFF;
+}
+
+.evento-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.evento-btn.eliminar:hover {
+  background: rgba(255, 50, 50, 0.3);
+}
+
+.evento-btn.editar:hover {
+  background: rgba(100, 200, 255, 0.3);
+}
+
+.evento-btn.completar:hover {
+  background: rgba(50, 255, 126, 0.3);
+}
+
+.evento-btn.descompletar:hover {
+  background: rgba(155, 92, 255, 0.35);
+}

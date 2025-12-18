@@ -1,0 +1,184 @@
+.admin-panel-container {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #64b6ac;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  padding: 2rem;
+  align-items: start;
+}
+
+.admin-panel-column {
+  background-color: rgba(112, 152, 155, 0.9);
+  border: 1px solid rgba(44, 44, 44, 0.2);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 140px);
+}
+
+.admin-panel-header {
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.admin-panel-header h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+}
+
+.admin-panel-count {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.admin-panel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 0.5rem;
+}
+
+
+.admin-panel-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.admin-panel-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.admin-panel-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.admin-panel-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.admin-panel-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.admin-panel-empty p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
+}
+
+.admin-panel-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #64b6ac;
+  gap: 1rem;
+}
+
+.admin-panel-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.admin-panel-loading p {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.admin-panel-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #64b6ac;
+  padding: 2rem;
+  text-align: center;
+}
+
+.admin-panel-error h2 {
+  color: white;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.admin-panel-error p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.admin-panel-error button {
+  background-color: #172e3c;
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.admin-panel-error button:hover {
+  background-color: #0f1f28;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* TABLET - 1 columna */
+@media (min-width: 768px) and (max-width: 1200px) {
+  .admin-panel-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* CELULAR - 1 columna */
+@media (max-width: 767px) {
+  .admin-panel-container {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .admin-panel-column {
+    max-height: 60vh;
+  }
+
+  .admin-panel-header h2 {
+    font-size: 1.25rem;
+  }
+}

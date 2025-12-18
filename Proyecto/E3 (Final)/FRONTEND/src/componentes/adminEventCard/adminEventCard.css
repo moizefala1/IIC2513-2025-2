@@ -1,0 +1,72 @@
+.admin-event-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.admin-event-card:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.admin-event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  gap: 0.5rem;
+}
+
+.admin-event-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+  flex: 1;
+}
+
+.admin-event-badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.admin-event-badge.completed {
+  background-color: rgba(23, 46, 60, 0.3);
+  color: #C0FDFB;
+}
+
+.admin-event-description {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+  line-height: 1.4;
+}
+
+.admin-event-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+}
+
+.admin-event-date,
+.admin-event-user {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+@media (max-width: 767px) {
+  .admin-event-card {
+    padding: 0.75rem;
+  }
+
+  .admin-event-title {
+    font-size: 0.95rem;
+  }
+}

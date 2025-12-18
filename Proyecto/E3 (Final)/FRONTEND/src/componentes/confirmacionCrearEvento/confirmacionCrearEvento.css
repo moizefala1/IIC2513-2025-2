@@ -1,0 +1,47 @@
+.confirmacion-crear-evento-body {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+.success-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #70989B;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    z-index: 1001;
+    text-align: center;
+}
+
+.success-message p {
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.success-message button {
+    background-color: #C0FDFB;
+    color: #172E3C;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.success-message button:hover {
+    background-color: #a0ddd9;
+}
